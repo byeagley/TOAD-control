@@ -32,8 +32,10 @@ instructions = {
 }
 
 run = True
-outfile = open("instructions.json", "w")
+
 while run:
+    outfile = open("instructions.json", "w")
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -86,4 +88,4 @@ while run:
                 
         outfile.write(json_object) 
 
-outfile.close()
+    outfile.close()
