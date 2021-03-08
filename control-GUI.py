@@ -29,14 +29,18 @@ pygame.draw.rect(guiDisplay, currentColor, power_button)
 onText = font.render('ON', True, BLACK)
 offText = font.render('OFF', True, BLACK)
 
-# Driving Mode Button
-pygame.draw.rect(guiDisplay, GREY,(res[0]/2 - 300,200,200,50))
-pygame.draw.rect(guiDisplay, GREY,(res[0]/2 + 100,200,200,50))
+# Driving Mode Buttons 
+ackermannButton = pygame.Rect(res[0]/2 - 325,200,250,50)
+tankButton = pygame.Rect(res[0]/2 + 75,200,250,50)
+alt1Color = WHITE
+alt2Color = GREY
 ackermannText = font.render('Ackermann steering', True, BLACK)
 tankText = font.render('Tank mode', True, BLACK)
 
 # Speed Slider
 speed = 0
+
+
 
 # Steering Angle Slider
 steering_angle = 0
@@ -74,6 +78,10 @@ while running:
                 if speed > 0:
                     speed -= 10
             
+        pygame.draw.rect(guiDisplay, alt1Color, ackermannButton)
+        pygame.draw.rect(guiDisplay, alt2Color, tankButton)
+        guiDisplay.blit(ackermannText, (185, 210))
+        guiDisplay.blit(tankText, (610, 210))
 
         pygame.draw.rect(guiDisplay, BLACK, (400, 500, 300,300))
         angleDisplay = font.render('Steering angle: ' + str(steering_angle), True, WHITE)
@@ -87,13 +95,26 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mouseClicked = True
 
-        #if power_button.collidepoint(pos) and mouseClicked == False:
-            #pygame.draw.rect(guiDisplay, currentColor, power_button)
-
         if power_button.collidepoint(pos) and mouseClicked:
             temp = currentColor
             currentColor = previousColor
             previousColor = temp
+
+        if ackermannButton.collidepoint(pos) and mouseClicked:
+            if alt1Color == WHITE:
+                pass
+            else:
+                alt1Color = WHITE
+                alt2Color = GREY
+
+        if tankButton.collidepoint(pos) and mouseClicked:
+            if alt2Color == WHITE:
+                pass
+            else:
+                alt1Color = GREY
+                alt2Color = WHITE
+
+
 
         pygame.display.update()
         
