@@ -37,7 +37,7 @@ alt2Color = GREY
 ackermannText = font.render('Ackermann steering', True, BLACK)
 tankText = font.render('Tank mode', True, BLACK)
 
-drivingMode = "Ackermann"
+drivingMode = "ackermann"
 
 # Speed Sliders
 leftspeed = 0
@@ -125,7 +125,18 @@ while running:
                 leftsliderDrag = False
 
         elif event.type == pygame.MOUSEMOTION:
-            if rightsliderDrag:
+            if drivingMode == "ackermann" and (rightsliderDrag or leftsliderDrag):
+                mouse_x, mouse_y = event.pos
+                rightsliderButton.y = mouse_y + offset_y
+                leftsliderButton.y = mouse_y + offset_y
+                if rightsliderButton.y > 720:
+                    rightsliderButton.y = 720
+                    leftsliderButton.y = 720
+                elif rightsliderButton.y < 400:
+                    rightsliderButton.y = 400
+                    leftsliderButton.y = 400
+
+            elif rightsliderDrag:
                 mouse_x, mouse_y = event.pos
                 rightsliderButton.y = mouse_y + offset_y
                 if rightsliderButton.y > 720:
@@ -146,6 +157,7 @@ while running:
             previousColor = temp
 
         if ackermannButton.collidepoint(pos) and mouseClicked:
+            drivingMode = "ackermann"
             if alt1Color == WHITE:
                 pass
             else:
@@ -153,6 +165,7 @@ while running:
                 alt2Color = GREY
 
         if tankButton.collidepoint(pos) and mouseClicked:
+            drivingMode = "tank"
             if alt2Color == WHITE:
                 pass
             else:
