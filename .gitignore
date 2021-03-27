@@ -13,6 +13,9 @@ Icon
 #Python
 .python-version
 
+#Virtual environment
+venv/
+
 # Thumbnails
 ._*
 
