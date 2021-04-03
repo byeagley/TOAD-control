@@ -12,6 +12,10 @@ Icon
 
 #Python
 .python-version
+.ipynb_checkpoints/
+
+#Virtual environment
+venv/
 
 # Thumbnails
 ._*
