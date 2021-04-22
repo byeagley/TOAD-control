@@ -166,11 +166,9 @@ class PyQtLayout(QWidget):
         vbox.addWidget(turnButton, 1, 1, 1, 2)
         vbox.addWidget(joystick, 1, 1)
 
- 
         self.setLayout(vbox)
         self.setGeometry(300, 300, 350, 250)
-        self.setWindowTitle('PyQt5 Layout')
-
+        self.setWindowTitle('TOAD Controller')
 
         self.show()
 
