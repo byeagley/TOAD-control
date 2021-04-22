@@ -23,7 +23,7 @@ class Joystick(QWidget):
     value = pyqtSignal(QPointF)
     def __init__(self, parent=None):
         super(Joystick, self).__init__(parent)
-        self.setMinimumSize(100, 100)
+        self.setMinimumSize(200, 200)
         self.movingOffset = QPointF(0, 0)
         self.coords = QPointF(0, 0)
         self.grabCenter = False
@@ -86,35 +86,20 @@ class PyQtLayout(QWidget):
                 slider_label.setVisible(False)
                 slider.setVisible(False)
                 turnButton.setVisible(False)
-                angle_label.setVisible(True)
-            if combo.currentText() == 'Turn in Place':
+            elif combo.currentText() == 'Turn in Place':
                 joystick.setVisible(False)
                 slider.setVisible(True)
-                slider_label.setText("Turn speed")
                 slider_label.setVisible(True)
                 slider.setValue(50)
                 turnButton.setVisible(True)
-                angle_label.setVisible(False)
         
-        def changeColor():
-            if button.isChecked():
-                button.setStyleSheet("background-color : green")
-            else:
-                button.setStyleSheet("background-color : red")
-
-        def display(coords):
-            speed_label.setText(str(round(coords.y() * -2)))
-            angle_label.setText(str(round(coords.x() * 0.6)))
-
-        def turnSpeedUpdate(speed):
-            speed_label.setText(str(speed))
 
         def json_output():
             parameters['mode'] = combo.currentText()
 
             if combo.currentText() == 'Ackermann':
-                parameters['forward speed'] = int(speed_label.text())
-                parameters['steering angle'] = int(angle_label.text())
+                parameters['forward speed'] = int(round(joystick.coords.y() * -2))
+                parameters['steering angle'] = int(round(joystick.coords.x() * 0.6))
             elif combo.currentText() == 'Turn in Place':
                 parameters['turn speed'] = slider.value()
 
@@ -125,11 +110,16 @@ class PyQtLayout(QWidget):
 
             if button.isChecked():
                 parameters['power'] = 'on'
+                button.setStyleSheet("background-color : green")
             else:
                 parameters['power'] = 'off'
+                button.setStyleSheet("background-color : red")
+
             with open('output.txt', 'w') as json_file:
                 json.dump(parameters, json_file, indent = len(parameters))
         
+
+
         # Turn in Place Button
         turnButton = QPushButton('Hold to Turn')
         turnButton.setVisible(False)
@@ -139,7 +129,6 @@ class PyQtLayout(QWidget):
         # Power Button
         button = QPushButton('Power')
         button.setCheckable(True)
-        button.clicked.connect(changeColor)
         button.clicked.connect(json_output)
         button.setMaximumWidth(50)
         button.setStyleSheet("background-color : red") 
@@ -156,45 +145,26 @@ class PyQtLayout(QWidget):
         slider.setMaximum(100)
         slider.setTickPosition(QtWidgets.QSlider.TicksBelow)
         slider.setTickInterval(10)
-        slider.valueChanged.connect(turnSpeedUpdate)
         slider.valueChanged.connect(json_output)
         slider.setVisible(False)
 
         # Slider label    
         slider_label = QtWidgets.QLabel(self)
-        slider_label.setWordWrap(True)
-        slider_label.setText("Forward speed")
+        slider_label.setText("Turn\nspeed")
         slider_label.setVisible(False)
-
-        # Speed label
-        speed_label = QtWidgets.QLabel(self)
-        speed_label.setText("0")
-        #speed_label.setStyleSheet('QLabel { background: #007AA5; border-radius: 3px;}')
-        speed_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
-        speed_label.setFont(QtGui.QFont("Arial",25))
-
-        # Angle Label
-        angle_label = QtWidgets.QLabel(self)
-        angle_label.setText("0")
-        angle_label.setFont(QtGui.QFont("Arial",25))
-        #angle_label.setStyleSheet('QLabel { background: #007AA5; border-radius: 3px;}')
-        angle_label.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
 
         # Joystick
         joystick = Joystick()
-        joystick.value.connect(display)
         joystick.value.connect(json_output)
         
         # Grid Layout Management 
         vbox = QGridLayout()
         vbox.addWidget(combo, 0, 1)
         vbox.addWidget(slider, 1, 0)
-        vbox.addWidget(slider_label, 0, 0)
-        vbox.addWidget(speed_label, 2, 0)
+        vbox.addWidget(slider_label, 2, 0)
         vbox.addWidget(button, 2, 2)
         vbox.addWidget(turnButton, 1, 1, 1, 2)
-        vbox.addWidget(angle_label, 1, 2)
-        vbox.addWidget(joystick, 1, 0, 1, 1)
+        vbox.addWidget(joystick, 1, 1)
 
  
         self.setLayout(vbox)
