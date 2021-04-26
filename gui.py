@@ -68,7 +68,7 @@ class Joystick(QWidget):
             self.movingOffset = self._boundJoystick(event.pos())
             self.update()
         self.coords = self.movingOffset - self._center()
-        print(self.coords)
+        #print(self.coords)
         self.value.emit(self.coords)
 
 class PyQtLayout(QWidget):
