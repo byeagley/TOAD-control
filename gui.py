@@ -64,7 +64,7 @@ class Joystick(QWidget):
 
     def mouseMoveEvent(self, event):
         if self.grabCenter:
-            print("Moving")
+            #print("Moving")
             self.movingOffset = self._boundJoystick(event.pos())
             self.update()
         self.coords = self.movingOffset - self._center()
