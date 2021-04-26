@@ -6,6 +6,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import sys
 import json
+import time
 
 parameters = {
         'power': 'off', 
@@ -63,6 +64,7 @@ class Joystick(QWidget):
         self.update()
 
     def mouseMoveEvent(self, event):
+        time.sleep(.1)
         if self.grabCenter:
             #print("Moving")
             self.movingOffset = self._boundJoystick(event.pos())
