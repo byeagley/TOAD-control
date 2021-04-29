@@ -69,7 +69,7 @@ time.sleep(0.1)
 
 f = open("distance_time.txt", "w")
 f2 = open("velocity_time.txt", "w")
-f3 = open("yaw_time.txt", "w")
+f3 = open("pitch_time.txt", "w")
 start_time = time.time()
 time_array = []
 distance_array = []

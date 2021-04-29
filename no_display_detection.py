@@ -52,7 +52,7 @@ R_flip[2,2] =-1.0
 
 camera = PiCamera()
 camera.resolution = (640,480)
-camera.framerate = 60
+camera.framerate = 30
 
 mtx = np.array([[505.377, 0, 305.481],
        [0, 505.035, 236.892],
@@ -69,7 +69,7 @@ time.sleep(0.1)
 
 f = open("distance_time.txt", "w")
 f2 = open("velocity_time.txt", "w")
-f3 = open("yaw_time.txt", "w")
+f3 = open("pitch_time.txt", "w")
 start_time = time.time()
 time_array = []
 distance_array = []
@@ -124,7 +124,7 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
         f3.write(pitch_time)
 
 
-        print("Positon: d=%f,   Angle: theta=%f deg    (x=%f   y=%f   z=%f)"%(dist1, math.degrees(pitch), tvec[0], tvec[1], tvec[2]))
+        print("Positon: d=%f,   Angle: theta=%f deg\n"%(dist1, math.degrees(pitch)))
         dist_time = str(dist1) + " " + str(t1) + "\n"
         time_array.append(t1)
         distance_array.append(dist1)
@@ -148,7 +148,9 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
 
     #cv2.imshow('frame',image)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    k = cv2.waitKey(0) & 0xFF
+    # press 'q' to exit
+    if k == ord('q'):
         break
 
     raw_capture.truncate(0)
