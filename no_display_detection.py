@@ -93,7 +93,7 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
 
     corners, ids, rejectedImgPoints = aruco.detectMarkers(gray, aruco_dict, parameters=parameters)
 
-    font = cv2.FONT_HERSHEY_SIMPLEX
+    #font = cv2.FONT_HERSHEY_SIMPLEX
 
     if np.all(ids != None):  
         for i in range(0, len(ids)):  
@@ -102,8 +102,8 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
             ret = aruco.estimatePoseSingleMarkers(corners[i], 2.5, mtx, dist)
             rvec, tvec = ret[0][0,0,:], ret[1][0,0,:]
 
-        for i in range(0, len(ids)):
-            aruco.drawAxis(image, mtx, dist, rvec, tvec, 1)
+        #for i in range(0, len(ids)):
+            #aruco.drawAxis(image, mtx, dist, rvec, tvec, 1)
 
         t5 = t4
         t4 = t3
@@ -140,13 +140,13 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
 
 
         f.write(dist_time)
-        aruco.drawDetectedMarkers(image, corners)
+        #aruco.drawDetectedMarkers(image, corners)
 
-    else:
+    #else:
         # code to show 'No Ids' when no markers are found
-        cv2.putText(image, "No Ids", (0,64), font, 1, (0,255,0),2,cv2.LINE_AA)
+        #cv2.putText(image, "No Ids", (0,64), font, 1, (0,255,0),2,cv2.LINE_AA)
 
-    cv2.imshow('frame',image)
+    #cv2.imshow('frame',image)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
@@ -157,4 +157,3 @@ f.close()
 f2.close()
 f3.close()
 cv2.destroyAllWindows()
-
