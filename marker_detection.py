@@ -69,7 +69,7 @@ time.sleep(0.1)
 
 f = open("distance_time.txt", "w")
 f2 = open("velocity_time.txt", "w")
-f3 = open("pitch_time.txt", "w")
+f3 = open("yaw_time.txt", "w")
 start_time = time.time()
 time_array = []
 distance_array = []
@@ -120,11 +120,11 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
         R_tc = R_ct.T
 
         roll, pitch, yaw = rotationMatrixToEulerAngles(R_flip*R_tc)
-        pitch_time = str(math.degrees(pitch)) + " " + str(t1) + "\n"
-        f3.write(pitch_time)
+        yaw_time = str(math.degrees(yaw)) + " " + str(t1) + "\n"
+        f3.write(yaw_time)
 
 
-        print("Positon: d=%f,   Angle: theta=%f deg    (x=%f   y=%f   z=%f)"%(dist1, math.degrees(pitch), tvec[0], tvec[1], tvec[2]))
+        print("Positon: d=%f,   Angle: theta=%f deg    (x=%f   y=%f   z=%f)"%(dist1, math.degrees(yaw), tvec[0], tvec[1], tvec[2]))
         dist_time = str(dist1) + " " + str(t1) + "\n"
         time_array.append(t1)
         distance_array.append(dist1)
